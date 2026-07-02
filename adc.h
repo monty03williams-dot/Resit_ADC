@@ -1,6 +1,4 @@
 //
-// Created by Monty Williams on 02/07/2026.
-//
 
 #ifndef ADC_H
 #define ADC_H
@@ -10,8 +8,6 @@
 
 #define ADC_VREF 3.3
 #define ADC_MAX_RAW 4095.0
-#define OVERVOLTAGE_THRESHOLD 3.0
-#define UNDERVOLTAGE_THRESHOLD 0.3
 
 typedef struct __attribute__((packed)) {
     uint32_t magic;
@@ -43,7 +39,5 @@ typedef struct {
 } ADCSample;
 
 double adc_raw_to_voltage(uint16_t raw_value);
-void adc_convert_samples(ADCSample *samples, size_t count);
 
 #endif
-
