@@ -12,3 +12,6 @@ add_executable(adc_processor
         stats.c
 )
 
+target_link_libraries(adc_processor m)
+
+
