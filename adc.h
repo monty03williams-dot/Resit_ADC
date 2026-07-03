@@ -1,5 +1,6 @@
 //
 
+#include "stats.h"
 #ifndef ADC_H
 #define ADC_H
 
@@ -39,5 +40,6 @@ typedef struct {
 } ADCSample;
 
 double adc_raw_to_voltage(uint16_t raw_value);
+void adc_calculate_all_channel_stats(const ADCSample *samples, size_t count, ChannelStats channel_stats[4]);
 
 #endif

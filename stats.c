@@ -37,4 +37,3 @@ void calculate_channel_stats(const double *values, size_t count, ChannelStats *s
 
     stats->standard_deviation = sqrt(squared_difference_sum / count);
 }
-

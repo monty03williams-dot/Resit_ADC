@@ -18,3 +18,4 @@ typedef struct {
 void calculate_channel_stats(const double *values, size_t count, ChannelStats *stats);
 
 #endif
+
