@@ -1,39 +1,95 @@
 //
 
+#include <stdio.h>
 #include "stats.h"
-#include <math.h>
 
-void calculate_channel_stats(const double *values, size_t count, ChannelStats *stats) {
-    if (values == NULL || stats == NULL || count == 0) {
+static void initialise_stats(ChannelStats stats[MAX_CHANNELS]) {
+    for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+        stats[ch].count = 0;
+
+        stats[ch].min_voltage = 0.0;
+        stats[ch].max_voltage = 0.0;
+        stats[ch].sum_voltage = 0.0;
+        stats[ch].average_voltage = 0.0;
+
+        stats[ch].min_temperature = 0.0;
+        stats[ch].max_temperature = 0.0;
+        stats[ch].sum_temperature = 0.0;
+        stats[ch].average_temperature = 0.0;
+    }
+}
+
+void calculate_channel_stats(
+    const ADCSample *samples,
+    size_t sample_count,
+    ChannelStats stats[MAX_CHANNELS]
+) {
+    initialise_stats(stats);
+
+    if (samples == NULL) {
         return;
     }
 
-    double sum = 0.0;
+    for (size_t i = 0; i < sample_count; i++) {
+        unsigned int ch = samples[i].channel_id;
 
-    stats->min = values[0];
-    stats->max = values[0];
-    stats->count = (unsigned int) count;
-
-    for (size_t i = 0; i < count; i++) {
-        if (values[i] < stats->min) {
-            stats->min = values[i];
+        if (ch >= MAX_CHANNELS) {
+            continue;
         }
 
-        if (values[i] > stats->max) {
-            stats->max = values[i];
+        double voltage = samples[i].voltage;
+        double temperature = samples[i].temperature / 10.0;
+
+        if (stats[ch].count == 0) {
+            stats[ch].min_voltage = voltage;
+            stats[ch].max_voltage = voltage;
+            stats[ch].min_temperature = temperature;
+            stats[ch].max_temperature = temperature;
+        } else {
+            if (voltage < stats[ch].min_voltage) {
+                stats[ch].min_voltage = voltage;
+            }
+
+            if (voltage > stats[ch].max_voltage) {
+                stats[ch].max_voltage = voltage;
+            }
+
+            if (temperature < stats[ch].min_temperature) {
+                stats[ch].min_temperature = temperature;
+            }
+
+            if (temperature > stats[ch].max_temperature) {
+                stats[ch].max_temperature = temperature;
+            }
         }
 
-        sum += values[i];
+        stats[ch].sum_voltage += voltage;
+        stats[ch].sum_temperature += temperature;
+        stats[ch].count++;
     }
 
-    stats->mean = sum / count;
+    for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+        if (stats[ch].count > 0) {
+            stats[ch].average_voltage =
+                stats[ch].sum_voltage / stats[ch].count;
 
-    double squared_difference_sum = 0.0;
-
-    for (size_t i = 0; i < count; i++) {
-        double difference = values[i] - stats->mean;
-        squared_difference_sum += difference * difference;
+            stats[ch].average_temperature =
+                stats[ch].sum_temperature / stats[ch].count;
+        }
     }
+}
 
-    stats->standard_deviation = sqrt(squared_difference_sum / count);
+void print_channel_stats(const ChannelStats stats[MAX_CHANNELS]) {
+    printf("\nPer-channel statistics:\n");
+
+    for (int ch = 0; ch < MAX_CHANNELS; ch++) {
+        printf("\nChannel %d:\n", ch);
+        printf("  Count              : %u\n", stats[ch].count);
+        printf("  Voltage min        : %.6f V\n", stats[ch].min_voltage);
+        printf("  Voltage max        : %.6f V\n", stats[ch].max_voltage);
+        printf("  Voltage average    : %.6f V\n", stats[ch].average_voltage);
+        printf("  Temperature min    : %.1f C\n", stats[ch].min_temperature);
+        printf("  Temperature max    : %.1f C\n", stats[ch].max_temperature);
+        printf("  Temperature average: %.1f C\n", stats[ch].average_temperature);
+    }
 }
