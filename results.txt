@@ -1,0 +1,59 @@
+ADC Sensor Log Results
+======================
+
+Header
+------
+Magic number   : 0xADC1BEEF
+Version        : 1
+Channel count  : 4
+Record count   : 4000
+Sample rate    : 1000 Hz
+
+Per-channel statistics
+----------------------
+
+Channel 0
+  Count              : 1000
+  Voltage min        : 0.438388 V
+  Voltage max        : 2.858388 V
+  Voltage average    : 1.649628 V
+  Temperature min    : 23.9 C
+  Temperature max    : 71.1 C
+  Temperature average: 27.6 C
+
+Channel 1
+  Count              : 1000
+  Voltage min        : 0.489158 V
+  Voltage max        : 3.198462 V
+  Voltage average    : 1.505853 V
+  Temperature min    : 24.1 C
+  Temperature max    : 73.9 C
+  Temperature average: 27.6 C
+
+Channel 2
+  Count              : 1000
+  Voltage min        : 0.104762 V
+  Voltage max        : 2.907546 V
+  Voltage average    : 1.786128 V
+  Temperature min    : 24.0 C
+  Temperature max    : 73.5 C
+  Temperature average: 27.6 C
+
+Channel 3
+  Count              : 1000
+  Voltage min        : 0.485128 V
+  Voltage max        : 2.312821 V
+  Voltage average    : 1.399686 V
+  Temperature min    : 24.2 C
+  Temperature max    : 70.8 C
+  Temperature average: 27.6 C
+
+Fault summary
+-------------
+Sensor fault flags : 7
+Overvoltage faults : 6
+Undervoltage faults: 7
+
+Sequence summary
+----------------
+Sequence gaps: 2
