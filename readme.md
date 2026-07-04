@@ -81,16 +81,13 @@ The program performs the following tasks:
 - **CMakeLists.txt**	- CMake build configuration
 - **README.md**	- Project explanation and instructions
 
-## How to build
-Using CMake, build the project from the project folder.
-
-Example:
-
-`cmake -S . -B build`
-`cmake --build build
-`
-
-In CLion, open the project folder and build the project using the normal build button.
+## How to compile
+### Using CLion
+1. Open CLion.
+2. Select **File > Open** and choose the project folder.
+3. CLion will detect `CMakeLists.txt` and configure the project automatically.
+4. Click **Build > Build Project** or press `Ctrl+F9`.
+5. The executable will be created inside `cmake-build-debug`.
 
 ## How to run
 Run the program with the binary ADC file path as the command-line argument.
@@ -110,6 +107,11 @@ In CLion, set the program argument to:
 `data/adcsensorlog.bin
 `
 
+### Using gcc command line
+Open a terminal in the project folder and run:
+
+`gcc -std=c99 -o adcprocessor main.c adc.c io.c stats.c -lm
+`
 ## Output
 The program prints a summary to the terminal and also creates:
 
